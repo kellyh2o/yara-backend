@@ -1,12 +1,21 @@
 const Reflections = require('../models/reflections.model');
+const { serverError } = require('../utils/handlers');
 
-exports.getAllReflections = (req, res) => {
-    Reflections.find({}, (err, data) => {
-        if (err) {
-            res.send(err);
-        }
-        res.json(data);
-    });
+exports.getAllReflections = async (req, res) => {
+    await Reflections
+        .find({})
+        .then((reflections) => {
+            res.json(reflections);
+            return;
+        })
+        .catch(serverError(res));
+
+    // Reflections.find({}, (err, data) => {
+    //     if (err) {
+    //         res.send(err);
+    //     }
+    //     res.json(data);
+    // });
 };
 
 exports.getReflection = (req, res) => {
