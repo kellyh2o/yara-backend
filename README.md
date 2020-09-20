@@ -1,14 +1,29 @@
-# Example Mongo RESTful API
+# Yet Another Reflection App - Backend
 
-RESTful service power most any website today that receives and trasmits data via HTTP or HTTPS protocol. What you'll find below is what's used from express to run a simple set of Create, Read, Update, and Delete (CRUD) methods.
+This backend repo provides support for the yara-frontend repo for the following features: 
+
+- User Registration
+- User Login
+- View All Reflections
+- Create Reflection
+
+RESTful services power most any website today that receives and trasmits data via HTTP or HTTPS protocol. What you'll find below is what's used from express to run a simple set of Create, Read, Update, and Delete (CRUD) methods.
 
 Only the bare essentials are used to create the API service, and only the feature used by express and mongoose (mongodb client) will be explained in this documentation guide.
 
 _Caveats: Running this app assumes you have a working mongodb instance preinstalled on you machine_
 
+## Quick Commands
+
+To start the app: 
+
+```
+npm start
+```
+
 ## What you'll find
 
-| Direcotry   | Description                                           |
+| Directory   | Description                                           |
 | ----------- | ----------------------------------------------------- |
 | models      | Representations of data to be used in mongodb.        |
 | controllers | Functions to be bound and executed on routes.         |
@@ -36,7 +51,15 @@ mkdir -p /data/db
 # You will be prompted to enter your password
 sudo chown -R `id -un` /data/db
 
+```
+If running on MacOS Catalina, there is a known bug that prevents the writing on the default db path. You may need to run the following command instead:
+
+```bash
+mongod --dbpath /System/Volumes/Data/Users/<YourUsername>/Data/data/db
+```
+
 # Run the service
+```bash
 mongod
 ```
 
@@ -70,100 +93,57 @@ mongod
 npm start
 ```
 
-## MongoDB Shell
+## Run App
 
-Running the shell allows you to directly manage you databases and collections. *This is for advanced use and shouldn't be used without looking at the documentation or googling further instructions.*
+In order to run the app, since the UI isn't fully complete, you must perform a Postman  POST request to this url: 
 
-In one terminal run:
-
-```bash
-mongod
-# exit with CTRL + C
+```
+http://localhost:3000/api/auth/register
 ```
 
-In another terminal window run:
+For the body of the request, select the x-www-form-urlencoded option and enter the following keys and fill out the values as well:
 
-```bash
-mongo
-# close the shell with
-quit()
+
+```
+{
+    email: "",
+    username: "",
+    password: ""
+}
+```
+
+Then you will need to create a reflection with another Postman POST request:
+
+
+```
+http://localhost:3000/api/reflections
+```
+
+For this request, you need to set the authentication to "Bearer"  and use the token returned in the response from the register request performed right before this step. 
+
+
+In the reflections post, for the body of the request, select the x-www-form-urlencoded option and enter the following keys and fill out the values as well:
+
+
+```
+{
+    type: "",
+    createdBy: "",
+    title: ""
+    text: ""
+}
+```
+
+This is an example of a create f reflection request body:
+
+```
+{
+    "type": "Open",
+    "createdBy": "Kelly",
+    "title": "test title",
+    "text": "test text",
+}
 ```
 
 
-
-## Models and Schemas
-
-In mongodb, Schemas represent how the data will be presented in the database. The export Schema is wrapped in constructor provided by mongoose called `model()`. This function exposes a number of functions that you can perform that match the Schema being used.
-
-```javascript
-// tasks.model.js
-exports.Tasks = model('Tasks', TasksSchema);
-
-// tasks.controller.js
-Tasks.find(...);
-Tasks.findById(...);
-...
-```
-
-Functions exposed by `model()` and more are all in mongoose's [documentation](https://mongoosejs.com/).
-
-## Routes
-
-Routes help direct what an `endpoint` should do. In RESful services, `endpoints` are the full url of a given API at a specific address in that API. For example: `http://localhost:3000/api/tasks` is a RESTful `endpoint`. Pointing my browser at this address (assuming the server is live) will give me results if a route exists and has a [controller method](#controllers) attached.
-
-Express routes are defined by either one of these:
-
-```javascript
-const app = express();
-app.use('routePath').get((req, res) => { ... });
-
-// or
-
-const router = express.Router();
-router.get('routePath', (req, res) => { ... });
-```
-
-## Controllers
-
-Controller help build up routes by providing some level of functionality to a specified route. It's also key to note that there are different kinds of controllers. Like in MVC patterns, controllers effect how data is displayed or what happens on click events. When defining APIs, controllers can have nested functionality, control/manipulate data flow to the next controller, or access a database, in our case, and more.
-
-Since these are really just functions, we don't need anything special from express to implement them. We just need to make sure that our function signature matches correctly to where we intend to use it:
-
-```javascript
-exports.addTask = (req, res) => { ... }
-// (req, res) <- function signature
-```
-
-### Middleware
-
-Middleware is a kind of controller or function that controls the behaviour of a `request` or `response` within a server instance.
-
-#### Error-handling Middlware Functions
-
-We have the freedom to define what we want in our APIs, and error-handling is no exception. Error-handling controllers/functions follow a specific syntax that express recognizes:
-
-```javascript
-// notice the `err` parameter before `req` and `res`
-exports.errorHandler = (err, req, res) => { ... }
-```
-
-## Troubleshooting Notes
-
-If you don't have the database for running this project created already, mongodb is handy and creates it for you with the collection you're attempting to write to as the same name as the existing model.
-
-For example:
-
-```javascript
-// index.js
-const mongoose = require('mongoose');
-...
-// yaradb becomes the creted database upon connection if one doesn't exist
-mongoose.connect('mongodb://localhost/yaradb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-// tasks.model.js
-// `Reflections` will become the name of the collection in yaradb if one doesn't exist
-exports.Tasks = model('Reflections', ReflectionsSchema);
-```
+Then with the front end started, you will be able to login and view the reflection you created.
