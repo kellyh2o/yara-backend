@@ -38,36 +38,49 @@ Follow the instructions below to get mongo installed.
 
 For Windows users, follow the setup and install on the [MongoDB website](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 
+
 For Mac/Linux users:
 
 ```bash
 # Install using brew
-brew install mongodb
+brew install mongodb-community
+```
 
+Then create the database directory and give it permissions (Before Mac OS Catalina):
+
+```bash
 # Create the database directory
-mkdir -p /data/db
+sudo mkdir -p /data/db
 
 # Give write ownership for the directory
 # You will be prompted to enter your password
 sudo chown -R `id -un` /data/db
-
 ```
-If running on MacOS Catalina, there is a known bug that prevents the writing on the default db path. You may need to run the following command instead:
+
+OR if running on Mac OS Catalina, run these commands to create the database directory and give it permissions: 
 
 ```bash
-mongod --dbpath /System/Volumes/Data/Users/<YourUsername>/Data/data/db
+# Create the database directory
+sudo mkdir -p /System/Volumes/Data/data/db
+
+# Give write ownership for the directory
+# You will be prompted to enter your password
+sudo chown -R `id -un` /System/Volumes/Data/data/db
 ```
 
-# Run the service
+
+
+
+
+## Run the service
+
+In the past, I can run the `mongod` command to start MongoDB. This no longer works out for the box from MongoDB v4.2.3 onwards.
+The best way to start MongoDB now is via brew services.
+
 ```bash
-mongod
+brew services run mongodb-community
 ```
 
-In another terminal window, you can access the mongo shell with:
-
-```bash
-mongo
-```
 
 You'll know you sucessfuly ran the service and connected given the logs it presents you.
 
@@ -81,19 +94,13 @@ You'll know you sucessfuly ran the service and connected given the logs it prese
 npm install
 ```
 
-2. Spin up the mongodb instance:
-
-```bash
-mongod
-```
-
-3. Run server instance (either one works):
+2. Run server instance:
 
 ```bash
 npm start
 ```
 
-## Run App
+## Set up data for app
 
 In order to run the app, since the UI isn't fully complete, you must perform a Postman  POST request to this url: 
 
