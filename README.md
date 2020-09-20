@@ -157,13 +157,13 @@ For example:
 // index.js
 const mongoose = require('mongoose');
 ...
-// tododb becomes the creted database upon connection if one doesn't exist
-mongoose.connect('mongodb://localhost/tododb', {
+// yaradb becomes the creted database upon connection if one doesn't exist
+mongoose.connect('mongodb://localhost/yaradb', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
 // tasks.model.js
-// `Tasks` will become the name of the collection in tododb if one doesn't exist
-exports.Tasks = model('Tasks', TasksSchema);
+// `Reflections` will become the name of the collection in yaradb if one doesn't exist
+exports.Tasks = model('Reflections', ReflectionsSchema);
 ```

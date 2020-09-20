@@ -12,7 +12,7 @@ const logLevel = process.env.LOG_LEVEL || 'dev';
 
 // Make connection to the db
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/tododb', {
+mongoose.connect('mongodb://localhost/yaradb', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
