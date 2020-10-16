@@ -94,63 +94,19 @@ You'll know you sucessfuly ran the service and connected given the logs it prese
 yarn install
 ```
 
-2. Run server instance:
+2. Create the .env file with the following information
+
+MONGODB_URL=mongodb://localhost/yaradb
+JWT_KEY=reallysecretaccesssecret
+PORT=3000
+
+_The jwt key field can be whatever you want it to be. The one provided is just an example._
+
+3. Run server instance:
 
 ```bash
 yarn start
 ```
 
-## Set up data for app
-
-In order to run the app, since the UI isn't fully complete, you must perform a Postman  POST request to this url: 
-
-```
-http://localhost:3000/api/auth/register
-```
-
-For the body of the request, select the x-www-form-urlencoded option and enter the following keys and fill out the values as well:
-
-
-```
-{
-    email: "",
-    username: "",
-    password: ""
-}
-```
-
-Then you will need to create a reflection with another Postman POST request:
-
-
-```
-http://localhost:3000/api/reflections
-```
-
-For this request, you need to set the authentication to "Bearer"  and use the token returned in the response from the register request performed right before this step. 
-
-
-In the reflections post, for the body of the request, select the x-www-form-urlencoded option and enter the following keys and fill out the values as well:
-
-
-```
-{
-    type: "",
-    createdBy: "",
-    title: ""
-    text: ""
-}
-```
-
-This is an example of a create f reflection request body:
-
-```
-{
-    "type": "Open",
-    "createdBy": "Kelly",
-    "title": "test title",
-    "text": "test text",
-}
-```
-
-
-Then with the front end started, you will be able to login and view the reflection you created.
+Then with the front end started, you will be able to create a user, login to the app, view all reflections, 
+and create a reflection. You will also be able to log out. 
