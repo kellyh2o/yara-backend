@@ -11,14 +11,14 @@ RESTful services power most any website today that receives and trasmits data vi
 
 Only the bare essentials are used to create the API service, and only the feature used by express and mongoose (mongodb client) will be explained in this documentation guide.
 
-_Caveats: Running this app assumes you have a working mongodb instance preinstalled on you machine_
+_Caveats: Running this app assumes you have a working mongodb instance preinstalled on you machine, as well as yarn installed too_
 
 ## Quick Commands
 
 To start the app: 
 
 ```
-npm start
+yarn start
 ```
 
 ## What you'll find
@@ -91,13 +91,13 @@ You'll know you sucessfuly ran the service and connected given the logs it prese
 1. Install all packages:
 
 ```bash
-npm install
+yarn install
 ```
 
 2. Run server instance:
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Set up data for app
