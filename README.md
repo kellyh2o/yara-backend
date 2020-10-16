@@ -96,9 +96,11 @@ yarn install
 
 2. Create the .env file with the following information
 
+```
 MONGODB_URL=mongodb://localhost/yaradb
 JWT_KEY=reallysecretaccesssecret
 PORT=3000
+```
 
 _The jwt key field can be whatever you want it to be. The one provided is just an example._
 
